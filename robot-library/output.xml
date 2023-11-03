@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.1.1 (Python 3.11.6 on darwin)" generated="20231103 14:19:55.430" rpa="false" schemaversion="4">
+<suite id="s1" name="Test" source="/Users/rat/git/mateo-robot-bridge/robot-library/test.robot">
+<test id="s1-t1" name="Example Test" line="6">
+<kw name="Accept Keywords" library="mateo">
+<msg timestamp="20231103 14:19:56.176" level="INFO">[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8889
+ * Running on http://192.168.7.20:8889</msg>
+<msg timestamp="20231103 14:19:56.176" level="INFO">[33mPress CTRL+C to quit[0m</msg>
+<kw name="New Page" library="Browser">
+<arg>https://www.google.de</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Open a new Page.</doc>
+<status status="PASS" starttime="20231103 14:20:04.277" endtime="20231103 14:20:05.125"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>#W0wltc &gt; div</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<status status="PASS" starttime="20231103 14:20:05.138" endtime="20231103 14:20:05.177"/>
+</kw>
+<msg timestamp="20231103 14:20:42.858" level="INFO">* Serving Flask app 'mateo'
+ * Debug mode: off</msg>
+<errors>
+<msg timestamp="20231103 14:20:42.859" level="ERROR">Execution stopped by user.</msg>
+</errors>
+</robot>

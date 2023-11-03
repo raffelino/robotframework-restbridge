@@ -5,7 +5,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="-1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta content="Robot Framework 6.0.2 (Python 3.9.6 on darwin)" name="Generator">
+<meta content="Robot Framework 6.1.1 (Python 3.11.6 on darwin)" name="Generator">
 <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKcAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAAqAAAAAAAAAAAAAAAAAAAALIAAAD/AAAA4AAAANwAAADcAAAA3AAAANwAAADcAAAA3AAAANwAAADcAAAA4AAAAP8AAACxAAAAAAAAAKYAAAD/AAAAuwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC/AAAA/wAAAKkAAAD6AAAAzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAN8AAAD/AAAA+gAAAMMAAAAAAAAAAgAAAGsAAABrAAAAawAAAGsAAABrAAAAawAAAGsAAABrAAAADAAAAAAAAADaAAAA/wAAAPoAAADDAAAAAAAAAIsAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAANEAAAAAAAAA2gAAAP8AAAD6AAAAwwAAAAAAAAAAAAAAMgAAADIAAAAyAAAAMgAAADIAAAAyAAAAMgAAADIAAAAFAAAAAAAAANoAAAD/AAAA+gAAAMMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADaAAAA/wAAAPoAAADDAAAAAAAAADwAAAB8AAAAAAAAAGAAAABcAAAAAAAAAH8AAABKAAAAAAAAAAAAAAAAAAAA2gAAAP8AAAD6AAAAwwAAAAAAAADCAAAA/wAAACkAAADqAAAA4QAAAAAAAAD7AAAA/wAAALAAAAAGAAAAAAAAANoAAAD/AAAA+gAAAMMAAAAAAAAAIwAAAP4AAAD/AAAA/wAAAGAAAAAAAAAAAAAAAMkAAAD/AAAAigAAAAAAAADaAAAA/wAAAPoAAADDAAAAAAAAAAAAAAAIAAAAcAAAABkAAAAAAAAAAAAAAAAAAAAAAAAAEgAAAAAAAAAAAAAA2gAAAP8AAAD7AAAAywAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAN4AAAD/AAAAqwAAAP8AAACvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALIAAAD/AAAAsgAAAAAAAAC5AAAA/wAAAMoAAADAAAAAwAAAAMAAAADAAAAAwAAAAMAAAADAAAAAwAAAAMkAAAD/AAAAvAAAAAAAAAAAAAAAAAAAAKwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAArQAAAAAAAAAAwAMAAIABAAAf+AAAP/wAAD/8AAAgBAAAP/wAAD/8AAA//AAAJIwAADHEAAA//AAAP/wAAB/4AACAAQAAwAMAAA==">
 <style media="all" type="text/css">
 /* Generic and misc styles */
@@ -560,6 +560,9 @@ function toggleSuite(suiteId) {
 }
 function toggleTest(testId) {
     toggleElement(testId, ['keyword']);
+    var test = window.testdata.findLoaded(testId);
+    if (test.status == "FAIL" || test.status == "SKIP")
+        expandFailed(test);
 }
 function toggleKeyword(kwId) {
     toggleElement(kwId, ['keyword']);
@@ -623,7 +626,7 @@ function loadAndExpandElementIds(ids) {
     }
 }
 function expandFailed(element) {
-    if (element.status == "FAIL") {
+    if (element.status == "FAIL" || (element.type == "test" && element.status == "SKIP")) {
         window.elementsToExpand = [element];
         window.expandDecider = function (e) {
             return e.status == "FAIL";
@@ -1355,7 +1358,7 @@ window.testdata = function () {
     var LEVELS = ['TRACE', 'DEBUG', 'INFO', 'WARN', 'ERROR', 'FAIL', 'SKIP'];
     var STATUSES = ['FAIL', 'PASS', 'SKIP', 'NOT RUN'];
     var KEYWORD_TYPES = ['KEYWORD', 'SETUP', 'TEARDOWN', 'FOR', 'ITERATION', 'IF', 'ELSE IF', 'ELSE', 'RETURN',
-                         'TRY', 'EXCEPT', 'FINALLY', 'WHILE', 'CONTINUE', 'BREAK'];
+                         'TRY', 'EXCEPT', 'FINALLY', 'WHILE', 'CONTINUE', 'BREAK', 'ERROR'];
     function addElement(elem) {
         if (!elem.id)
             elem.id = uniqueId();
@@ -1803,31 +1806,31 @@ function stopPropagation(event) {
 window.output = {};
 </script>
 <script type="text/javascript">
-window.output["suite"] = [1,0,0,0,[],[0,0,2053],[],[[2,0,0,[],[0,41,2011,3],[[0,4,5,0,6,7,0,0,[0,42,2009],[[0,8,0,0,0,0,0,0,[0,46,0],[[46,5,9]]],[0,8,0,0,0,0,0,0,[0,2050,1],[[2051,5,9]]],[2051,5,3]]]]]],[],[1,0,1,0]];
+window.output["suite"] = [1,2,3,0,[],[0,0,251522],[],[[4,0,0,[],[0,521,250963,5],[[0,6,7,0,0,0,0,0,[1,248412,3092],[[531,2,8],[531,2,9],[0,10,11,0,12,13,0,14,[1,28670,1192],[]],[0,15,11,0,16,17,0,14,[1,79306,535],[]],[0,18,11,0,19,20,0,21,[1,173856,46],[]],[0,18,11,0,19,20,0,21,[0,523,250960],[[251483,2,22]]],[251488,2,23],[251503,2,24],[251503,2,25]]]]]],[],[1,0,1,0]];
 </script>
 <script type="text/javascript">
 window.output["strings"] = [];
 </script>
 <script type="text/javascript">
-window.output["strings"] = window.output["strings"].concat(["*","*xxxxx","*Infinite Loop","*Keyword 'True' failed after retrying for 100 milliseconds. The last error was: No keyword with name 'True' found.","*Wait Until Keyword Succeeds","*BuiltIn","*<p>Runs the specified keyword and retries if it fails.\x3c/p>","*0.1 seconds, 2 seconds, True","*True","*No keyword with name 'True' found."]);
+window.output["strings"] = window.output["strings"].concat(["*","*Test","*/Users/rat/git/mateo-robot-bridge/robot-library/test.robot","*test.robot","*Example Test","*Execution terminated by signal","*Accept Keywords","*mateo","eNqFjD0LwjAURXd/xaOTOqRNBVuLFgShdOngBx06BfO0gTQpSSr4743FxSLIu9O7555mRbuGdvX+WJVVkcG5FRZ8GHB8oNR9h8qBRfNAQ+CgQWkHg0UQDoTyWG80H65OaOUXvdTP94DAxSNfZX0qyo/HD61DxkkTdTNYwnFQSqg7eIpJCYxzg9aihXlExltMqC2D1uBtF7TO9VkY0jgZQZqlaboJ8p/vbcjyf55NTOg6JQmJo4lq2rxtL3dNX1M=","*[33mPress CTRL+C to quit[0m","*Open Browser","*Browser","*<p>Opens a new browser instance. Use this keyword for quick experiments or debugging sessions.\x3c/p>","*<a href=\"https://www.viadee.de\">https://www.viadee.de\x3c/a>, chromium, headless=False","*BrowserControl, Setter","*New Page","*<p>Open a new Page.\x3c/p>","*<a href=\"https://www.google.de\">https://www.google.de\x3c/a>","*Click","*<p>Simulates mouse click on the element found by <code>selector\x3c/code>.\x3c/p>","*#W0wltc &gt; div","*PageContent, Setter","** Serving Flask app 'mateo'\n * Debug mode: off","*Set timeout to: 10000","eNq9U8tugzAQvOcrEOc4MX7iKOTQ/kDvUQ4GrxMkEiIwoVXVf68JpCVpqqo99IBAszuzw3i9ngTBq3+CIHQvRwgXQZjtqnKfN/tw2uO56dC0KtsaqsRwJXQaEYQhoohZbpHSgiNMicYajI2NvDCz8uDg2dWevz4jl1nX8/qugTQaORQSJQFoxgiyGcWICREjBQQjJSIlpXegMzNm68zlJ3jS27P80b8TLKlNgUeIE5wiFoN3TSxGUqQZp5JjTfBYoiONbV9bv7LftY6ofS13RVc8NEVxU2qqomMtdbCrwCbhzrljvZjP27adnXJtAGYG5uHqPr6c69XtsD6s82+KGASOfVJcUo2Y5AqlxhpkY2YzZQhTVH/1uofa6f3Rq0RCKRxJKqMZo2LU9zb91yC2Zbkt7gTxif8QxC/P+7sgGPFBqHEOH9+byRjZDBvfr97jsNF/2+FB5KG/cF7EVQ1Mukmbd9zy56A=","*Switching context to context=97ee3c42-fc30-4668-9e20-961977f5facd in CURRENT"]);
 </script>
 <script type="text/javascript">
-window.output["stats"] = [[{"elapsed":"00:00:02","fail":1,"label":"All Tests","pass":0,"skip":0}],[],[{"elapsed":"00:00:02","fail":1,"id":"s1","label":"xxxxx","name":"xxxxx","pass":0,"skip":0}]];
+window.output["stats"] = [[{"elapsed":"00:04:11","fail":1,"label":"All Tests","pass":0,"skip":0}],[],[{"elapsed":"00:04:12","fail":1,"id":"s1","label":"Test","name":"Test","pass":0,"skip":0}]];
 </script>
 <script type="text/javascript">
 window.output["errors"] = [];
 </script>
 <script type="text/javascript">
-window.output["baseMillis"] = 1681804160861;
+window.output["baseMillis"] = 1699017342153;
 </script>
 <script type="text/javascript">
-window.output["generated"] = 2065;
+window.output["generated"] = 251542;
 </script>
 <script type="text/javascript">
 window.output["expand_keywords"] = null;
 </script>
 <script type="text/javascript">
-window.settings = {"defaultLevel":"INFO","minLevel":"FAIL","reportURL":"report.html","rpa":false,"splitLogBase":"log","title":""};
+window.settings = {"defaultLevel":"INFO","minLevel":"INFO","reportURL":"report.html","rpa":false,"splitLogBase":"log","title":""};
 </script>
 <title></title>
 </head>
@@ -1928,8 +1931,8 @@ function makeElementVisible(id) {
         util.map(ids, expandElementWithId);
         if (ids.length) {
             expandFailed(window.testdata.findLoaded(util.last(ids)));
-            window.location.hash = '';
             window.location.hash = id;
+            document.getElementById(id).scrollIntoView();
             highlightLinkTarget();
         }
     });
