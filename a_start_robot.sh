@@ -1,0 +1,1 @@
+robot --outputdir output robot-library/test.robot

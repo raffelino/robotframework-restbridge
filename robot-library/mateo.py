@@ -4,7 +4,6 @@ import json
 import re
 import traceback
 
-
 TAB = re.compile('  +|\t')
 
 def run(server, command):
@@ -26,9 +25,15 @@ class mateo:
             json_body = request.data.decode('utf-8')
             data = json.loads(json_body)
             parsed = TAB.split(data['command'])
-            result = BuiltIn().run_keyword(parsed[0], *parsed[1:])
+            result_from_keyword = BuiltIn().run_keyword(parsed[0], *parsed[1:])
             context = BuiltIn()._get_context()
-            return str(context)
+            #import sys, pdb; pdb.Pdb(stdout=sys.__stdout__).set_trace()
+
+            result = str(result_from_keyword) + "\n"
+            variables = context.variables.as_dict()
+            for key in variables:
+                result = f"{result} {key} : {variables[key]} \n"
+            return result
         except Exception as e:
             return traceback.format_exc()
 

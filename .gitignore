@@ -1,3 +1,7 @@
 output/
 browser/
 robot-library/__pycache__
+playwright-log.txt
+report.html
+output.xml
+log.html
