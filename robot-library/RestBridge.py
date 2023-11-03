@@ -42,5 +42,7 @@ class RestBridge:
             return traceback.format_exc()
 
 
+    # TODO: wie geht robot mit vergleichen um (erwartet 1=1 , aber 2=1 -> fehleer)
+
     #TODO: Abbruch Endpunkt für einzelne Kommandos
     # 
