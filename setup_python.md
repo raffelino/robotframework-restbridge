@@ -10,5 +10,8 @@ echo "export PATH=/opt/homebrew/Cellar/python@3.11/3.11.6_1/bin/:$PATH" > /Users
 $ pip3 install Flask
 
 $ pip3 install robotframework-browser
-
 $ rfbrowser init
+
+$ pip3 install robotframework-requests
+
+$ pip3 install jsonpickle

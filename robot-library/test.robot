@@ -1,7 +1,8 @@
 *** Settings ***
-Library   Browser
-Library   mateo.py
+Library    Browser
+Library    RequestsLibrary
+Library    RestBridge.py
 
 *** Test Cases ***
-Example Test
+RestBridge
     accept_keywords
