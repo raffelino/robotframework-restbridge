@@ -19,14 +19,16 @@ class RestBridge:
         app = Flask(__name__)
         app.add_url_rule("/", "dorun", self.dorun, methods=['POST'])
         #app.add_url_rule("/shutdown", "shutdown", self.shutdown)
-        app.run(host="0.0.0.0", port=8889)
+        app.run(host="0.0.0.0", port=8882)
     
 
     def dorun(self):
         try:
             json_body = request.data.decode('utf-8')
+            BuiltIn().run_keyword("Log to Console", json_body)
             data = json.loads(json_body)
-            parsed = TAB.split(data['command'])
+            command = data['command']
+            parsed = TAB.split(command)
             result_from_keyword = BuiltIn().run_keyword(parsed[0], *parsed[1:])
             context = BuiltIn()._get_context()
             result = ""
@@ -35,8 +37,9 @@ class RestBridge:
             #variables = context.variables.as_dict()
             #for key in variables:
             #    result = f"{result} {key} : {variables[key]} \n"
+            result_from_keyword["_STATUS"] = "OK"
             result = result + jsonpickle.encode(result_from_keyword)
-           
+
             return result
         except Exception as e:
             return traceback.format_exc()

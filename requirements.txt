@@ -1,0 +1,5 @@
+Flask
+robotframework-browser
+robotframework-requests
+jsonpickle
+requests

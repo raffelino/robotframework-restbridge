@@ -5,3 +5,5 @@ playwright-log.txt
 report.html
 output.xml
 log.html
+/venv/
+.idea/
