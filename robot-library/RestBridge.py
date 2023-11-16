@@ -1,9 +1,11 @@
+from robot.errors import HandlerExecutionFailed
 from robot.libraries.BuiltIn import BuiltIn
 from flask import Flask, request, jsonify
 import json
 import re
 import traceback
 import jsonpickle
+import types
 
 
 TAB = re.compile('  +|\t')
@@ -17,12 +19,11 @@ class RestBridge:
 
     def accept_keywords(self):
         app = Flask(__name__)
-        app.add_url_rule("/", "dorun", self.dorun, methods=['POST'])
-        #app.add_url_rule("/shutdown", "shutdown", self.shutdown)
+        app.add_url_rule("/", "execute_keyword", self.execute_keyword, methods=['POST'])
         app.run(host="0.0.0.0", port=8882)
-    
 
-    def dorun(self):
+
+    def execute_keyword(self):
         try:
             json_body = request.data.decode('utf-8')
             BuiltIn().run_keyword("Log to Console", json_body)
@@ -31,21 +32,21 @@ class RestBridge:
             parsed = TAB.split(command)
             result_from_keyword = BuiltIn().run_keyword(parsed[0], *parsed[1:])
             context = BuiltIn()._get_context()
-            result = ""
-            # with the following statement we can start the deugger
+            # with the following statement we can start the debugger
             #import sys, pdb; pdb.Pdb(stdout=sys.__stdout__).set_trace()
-            #variables = context.variables.as_dict()
-            #for key in variables:
-            #    result = f"{result} {key} : {variables[key]} \n"
-            result_from_keyword["_STATUS"] = "OK"
-            result = result + jsonpickle.encode(result_from_keyword)
-
-            return result
+            result = types.SimpleNamespace()
+            result.payload = result_from_keyword
+            result.variables = context.variables.as_dict()
+            result.mateo_status = "OK"
+            return jsonpickle.encode(result)
+        except HandlerExecutionFailed as e:
+            result = types.SimpleNamespace()
+            result.payload = e.message
+            result.mateo_status = e.status
+            BuiltIn().run_keyword("Log to Console", jsonpickle.encode(result))
+            return jsonpickle.encode(result), 400
         except Exception as e:
-            return traceback.format_exc()
-
-
-    # TODO: wie geht robot mit vergleichen um (erwartet 1=1 , aber 2=1 -> fehleer)
-
-    #TODO: Abbruch Endpunkt für einzelne Kommandos
-    # 
+            result = types.SimpleNamespace()
+            result.payload = traceback.format_exc()
+            result.mateo_status = "FATAL"
+            return jsonpickle.encode(result), 500
