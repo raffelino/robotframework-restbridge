@@ -13,7 +13,10 @@ TAB = re.compile('  +|\t')
 def run(server, command):
     parsed = TAB.split(command)
 
-class RestBridge:
+class RobotframeworkRestBridge:
+    
+    def __init__(self):
+        pass
 
     app = None
 

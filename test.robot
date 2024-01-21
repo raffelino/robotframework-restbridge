@@ -1,7 +1,7 @@
 *** Settings ***
 Library    Browser
 Library    RequestsLibrary
-Library    RestBridge.py
+Library    robotframework_restbridge.RestBridge.RobotframeworkRestBridge
 
 *** Test Cases ***
 RestBridge

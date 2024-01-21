@@ -7,3 +7,4 @@ output.xml
 log.html
 /venv/
 .idea/
+*.pyc

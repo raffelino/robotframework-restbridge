@@ -1,4 +1,4 @@
-Flask
+flask
 robotframework-browser
 robotframework-requests
 jsonpickle
